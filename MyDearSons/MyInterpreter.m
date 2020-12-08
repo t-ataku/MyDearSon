@@ -13,10 +13,100 @@
 NSMutableData *voiceData;
 NSUInteger pos;
 
-void completeData(NSData *data, NSURLResponse *response, NSError *error)
-{
-    return;
++ (void)initialize {
+    // Register the preference defaults early.
+     id keys[] = {
+         @"langTransURLBase",
+         @"langTransURLDo",
+         @"langTransURLList",
+         @"langTransCredential",
+         @"speechURLBase",
+         @"speechCredential"
+     };
+     id objs[] = {
+         @"",
+         @"v3/translate?version=2018-05-01",
+         @"v3/languages?version=2018-05-01",
+         @"",
+         @"",
+         @""
+     };
+     int dictSize = sizeof(keys) / sizeof(keys[0]) > sizeof(objs) / sizeof(objs[0]) ? sizeof(objs) / sizeof(objs[0]) : sizeof(keys) / sizeof(keys[0]);
+     int go = 1;
+
+     NSDictionary *dict = [NSDictionary dictionaryWithObjects:objs forKeys:keys count: dictSize];
+     NSUserDefaults *pref = [NSUserDefaults standardUserDefaults];
+     if (go)
+         [pref registerDefaults:dict];
 }
+
+- (void)awakeFromNib {
+    NSUserDefaults *pref = [NSUserDefaults standardUserDefaults];
+    NSDictionary *dict = [pref dictionaryRepresentation];
+    [dict enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+
+        if ([key compare:@"langTransURLBase"] == NSOrderedSame) {
+            _prefLangtransURLBase.stringValue = obj;
+        } else if ([key compare:@"langTransURLDo"] == NSOrderedSame) {
+            _prefLangtransURLDo.stringValue = obj;
+        } else if ([key compare:@"langTransURLList"] == NSOrderedSame) {
+            _prefLangtransURLList.stringValue = obj;
+        } else if ([key compare:@"langTransCredential"] == NSOrderedSame) {
+            _prefLangtransCred.stringValue = obj;
+        } else if ([key compare:@"speechURLBase"] == NSOrderedSame) {
+            _prefSpeechURL.stringValue = obj;
+        } else if ([key compare:@"speechCredential"] == NSOrderedSame) {
+            _prefSpeechCred.stringValue = obj;
+        }
+    }];
+}
+
+- (void)doing {
+    NSLog(@"Doing");
+//[textView performSelectorOnMainThread:@selector(setText:)
+//withObject:text
+//waitUntilDone:NO];
+//    [_goButton performSelectorOnMainThread:@selector(setEnabled:) withObject:NO waitUntilDone:NO];
+    [_goButton setEnabled:NO];
+}
+
+// Must be called like
+//     [_goButton performSelectorOnMainThread:@selector(done:) withObject:nil waitUntilDone:NO];
+- (void)done: (id)dummy {
+    NSLog(@"Done");
+    [_goButton setEnabled:YES];
+}
+
+- (BOOL)isdoing {
+    return !_goButton.enabled;
+}
+
+- (IBAction)prefSave:(id)sender {
+    NSUserDefaults *pref = [NSUserDefaults standardUserDefaults];
+    NSDictionary *dict = [pref dictionaryRepresentation];
+    [dict enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        NSTextField *prefItem;
+        if ([key compare:@"langTransURLBase"] == NSOrderedSame) {
+            prefItem = _prefLangtransURLBase;
+        } else if ([key compare:@"langTransURLDo"] == NSOrderedSame) {
+            prefItem = _prefLangtransURLDo;
+        } else if ([key compare:@"langTransURLList"] == NSOrderedSame) {
+            prefItem = _prefLangtransURLList;
+        } else if ([key compare:@"langTransCredential"] == NSOrderedSame) {
+            prefItem = _prefLangtransCred;
+        } else if ([key compare:@"speechURLBase"] == NSOrderedSame) {
+            prefItem = _prefSpeechURL;
+        } else if ([key compare:@"speechCredential"] == NSOrderedSame) {
+            prefItem = _prefSpeechCred;
+        } else
+            return;
+        
+        if ([prefItem.stringValue compare:obj] != NSOrderedSame)
+            [pref setObject:prefItem.stringValue forKey:key];
+    }];
+    [_preferences orderOut:self];
+}
+
 
 - gotList: data {
     NSLog(@"Data: %@", data);
@@ -46,6 +136,7 @@ void completeData(NSData *data, NSURLResponse *response, NSError *error)
     }
     return nil;
 }
+
 - (IBAction)listLanguages:(id)sender {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[self getUrl:@"langTransList"]];
     request.HTTPMethod = @"GET";
@@ -89,7 +180,10 @@ void completeData(NSData *data, NSURLResponse *response, NSError *error)
 
 - gotText: data {
     NSLog(@"Data: %@", data);
-    _destText.stringValue = data;
+    NSRange rng;
+    rng.location = 0;
+    rng.length = [[[_destText documentView] string] length];
+    [[_destText documentView] replaceCharactersInRange:rng withString:data];
     return self;
 }
 
@@ -105,7 +199,7 @@ void completeData(NSData *data, NSURLResponse *response, NSError *error)
     NSString *jsonFmt = @"{ \"text\": [%@], \"model_id\": \"%@-%@\" }";
     NSString *jsonData = @"";
     NSString *jsonMsg;
-    NSString *stext = [_sourceText stringValue];
+    NSString *stext = [[_sourceText documentView] string];
     NSRange linepos; //linepos.location linepos.length
 
     if ([stext length] == 0)
@@ -123,6 +217,14 @@ void completeData(NSData *data, NSURLResponse *response, NSError *error)
             jsonData = [jsonData stringByAppendingFormat:@"\"%@\"",[stext substringToIndex:linepos.location]];
         }
         stext = [stext substringFromIndex:(linepos.location + 1)];
+    }
+    
+    if ([stext length] > 0) { //No LF data exists
+        NSLog(@"%@", stext);
+        if ([jsonData length] > 0) {
+            jsonData = [jsonData stringByAppendingString:@",\n"];
+        }
+        jsonData = [jsonData stringByAppendingFormat:@"\"%@\"", stext];
     }
 
     jsonMsg = [NSString stringWithFormat:jsonFmt,jsonData,[[_sourceLanguage selectedItem] title], [[_destLanguage selectedItem] title]];
@@ -143,6 +245,7 @@ void completeData(NSData *data, NSURLResponse *response, NSError *error)
     [request setValue:[self getBasicRelm: credential] forHTTPHeaderField:@"Authorization"];
     NSURLSessionDataTask *dtask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:
                                            ^(NSData *_dt, NSURLResponse *_resp, NSError *error) {
+        [self performSelectorOnMainThread:@selector(done:) withObject:nil waitUntilDone:NO];
                 if (_dt == nil) {
                     NSLog(@"%@", error);
                     return;
@@ -164,7 +267,7 @@ void completeData(NSData *data, NSURLResponse *response, NSError *error)
 
 - (NSString *)getSpeechSourceText {
     NSString *jsonMsg = @"";
-    NSString *stext = [_destText stringValue];
+    NSString *stext = [[_destText documentView] string];
     NSUInteger start, end;
     NSRange linepos; //linepos.location linepos.length
 
@@ -176,7 +279,7 @@ void completeData(NSData *data, NSURLResponse *response, NSError *error)
         if (linepos.location == NSNotFound)     // No more target
             break;
         stext = [stext substringFromIndex:(linepos.location + linepos.length + 1)];
-        linepos = [stext rangeOfString:@"\""];
+        linepos = [stext rangeOfString:@"\"\n"];
         if (linepos.location == NSNotFound)     // No more target
             break;
         end = linepos.location;
@@ -293,25 +396,46 @@ NSUInteger getrestdatalen()
     return self;
 }
 
+- (NSString *)getVoiceModel: (NSString *)lang {
+    if ([lang compare:@"en"] == NSOrderedSame)
+        return @"en-US_AllisonV3Voice";
+    else if ([lang compare:@"ja"] == NSOrderedSame)
+        return @"ja-JP_EmiVoice";
+    else if ([lang compare:@"zh"] == NSOrderedSame)
+        return @"zh-CN_LiNaVoice";
+    else if ([lang compare:@"ko"] == NSOrderedSame)
+        return @"ko-KR_YoungmiVoice";
+    return @"";
+}
+
 - doSpeech {
     NSString *testMsg = @"Our Business Conduct Guidelines are framed as a living document.";
     NSString *jsonMsg = [NSString stringWithFormat:@"{  \"text\": \"%@\" }", [self getSpeechSourceText]];
 
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[self getUrl:@"speech" withVoice:@"ja-JP_EmiVoice"]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[self getUrl:@"speech" withVoice:[self getVoiceModel:[[_destLanguage selectedItem] title]]]];
     request.HTTPMethod = @"POST";
     request.HTTPBody = [NSData dataWithBytes:[jsonMsg UTF8String] length:strlen([jsonMsg UTF8String])];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setValue:@"audio/wav" forHTTPHeaderField:@"Accept"];
     
     NSURLCredential *credential = [NSURLCredential credentialWithUser:@"apikey" password:[_prefSpeechCred stringValue] persistence:0];
-   NSLog(@"Authorization: %@", [self getBasicRelm: credential]);
+    NSLog(@"Authorization: %@", [self getBasicRelm: credential]);
     [request setValue:[self getBasicRelm: credential] forHTTPHeaderField:@"Authorization"];
     NSURLSessionDataTask *dtask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:
-                                           ^(NSData *_dt, NSURLResponse *_resp, NSError *error) {
+//                                           ^(NSData *_dt, NSURLResponse *_resp, NSError *error) {
+//                                           ^(NSData *_dt, NSHTTPURLResponse *_resp, NSError *error) {
+                                           ^(NSData *_dt, id _resp, NSError *error) {
+        [self performSelectorOnMainThread:@selector(done:) withObject:nil waitUntilDone:NO];
                 if (_dt == nil) {
                     NSLog(@"%@", error);
                     return;
                 }
+        NSLog(@"URL=%@", [[_resp URL] absoluteURL]);
+        NSLog(@"statusCode=%ld", [_resp statusCode]);
+        if ([_resp statusCode] >= 300) {
+            return;
+        }
+        
                 NSLog(@"DataLen=%lu", (unsigned long)[_dt length]);
     //            NSString *data = [[NSString alloc] initWithBytes:[_dt bytes] length:[_dt length] encoding:NSJapaneseEUCStringEncoding];
 
@@ -328,21 +452,30 @@ NSUInteger getrestdatalen()
 }
 
 - (IBAction)doInterpretation:(id)sender {
-    NSLog(@"Source Lang(%@) -> Dest Lang(%@)", _sourceLanguage.titleOfSelectedItem, _destLanguage.titleOfSelectedItem);
+    if ([self isdoing])
+        return;
+    if ([[[_sourceText documentView] string] length] == 0)    // Nothing to do
+        return;
+
     if ([_isInit state] != NSOffState) {    // It's a ON state
-        _destText.stringValue = @"";
+        NSRange rng;
+        rng.location = 0;
+        rng.length = [[[_destText documentView] string] length];
+        [[_destText documentView] replaceCharactersInRange:rng withString:@""];
         _playButton.enabled = NO;
         _isInit.state = NSOffState;
     }
     
-    if ([[_sourceText stringValue] length] == 0)    // Nothing to do
-        return;
-    if ([[_destText stringValue] length] == 0) {
-        NSLog(@"DoLangTrans");
+    [self doing];
+    if ([[[_destText documentView] string] length] == 0) {
+        NSLog(@"DoLangTrans:Source Lang(%@) -> Dest Lang(%@)", _sourceLanguage.titleOfSelectedItem, _destLanguage.titleOfSelectedItem);
+        _playButton.enabled = NO;
         [self doLangTrans];
     } else {
         NSLog(@"doSpeech");
+        _playButton.enabled = NO;
         [self doSpeech];
     }
+//    [self done];
 }
 @end

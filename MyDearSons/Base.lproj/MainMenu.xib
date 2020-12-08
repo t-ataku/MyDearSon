@@ -22,19 +22,20 @@
         <customObject id="rVI-J5-j1j" customClass="MyInterpreter">
             <connections>
                 <outlet property="destLanguage" destination="vJS-Vz-qLl" id="drE-Zs-5LW"/>
-                <outlet property="destText" destination="Hgb-5K-TyJ" id="Hdv-51-V2I"/>
+                <outlet property="destText" destination="q94-7T-q7f" id="MqS-Fq-ibO"/>
+                <outlet property="goButton" destination="fnS-jy-L6l" id="vTe-ri-EiC"/>
                 <outlet property="isInit" destination="Reh-QN-uL5" id="AYq-IB-Qfq"/>
                 <outlet property="isStep" destination="bON-bU-upR" id="AYZ-U2-G80"/>
-                <outlet property="playButton" destination="Pb8-2N-gXm" id="ZwW-T4-US4"/>
-                <outlet property="playVoice" destination="HHx-pc-dgK" id="Qm4-om-4St"/>
+                <outlet property="playButton" destination="Pb8-2N-gXm" id="P5b-0q-K3A"/>
                 <outlet property="prefLangtransCred" destination="YO9-pb-vpS" id="V5b-8P-Noj"/>
                 <outlet property="prefLangtransURLBase" destination="6cu-zR-Iz0" id="FBd-1t-AKt"/>
                 <outlet property="prefLangtransURLDo" destination="MWg-BO-hfm" id="KZI-qv-qae"/>
-                <outlet property="prefLangtransURLList" destination="NF1-92-vys" id="U8U-7g-qFh"/>
+                <outlet property="prefLangtransURLList" destination="wzj-2d-y7j" id="8pO-PE-ShG"/>
                 <outlet property="prefSpeechCred" destination="Vxs-Vg-a1g" id="Grc-Eo-WGo"/>
                 <outlet property="prefSpeechURL" destination="8f5-r0-Sg6" id="EDQ-OQ-9Bh"/>
+                <outlet property="preferences" destination="pTE-sS-6aP" id="kRq-Oz-dH0"/>
                 <outlet property="sourceLanguage" destination="3su-jg-COb" id="5xn-Ra-IRp"/>
-                <outlet property="sourceText" destination="C43-6h-yDz" id="CKp-Fp-4Hc"/>
+                <outlet property="sourceText" destination="k3i-fJ-cM5" id="nPL-Fm-0qh"/>
             </connections>
         </customObject>
         <menu title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
@@ -707,7 +708,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="1014" height="394"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="900"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="1014" height="394"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -740,7 +741,7 @@
                                             </fragment>
                                         </attributedString>
                                     </menuItem>
-                                    <menuItem title="zh" id="gHM-QU-SJx">
+                                    <menuItem title="zh" id="gHM-QU-SJx" userLabel="Chinese(zh)">
                                         <attributedString key="attributedTitle">
                                             <fragment content="zh">
                                                 <attributes>
@@ -749,6 +750,17 @@
                                                 </attributes>
                                             </fragment>
                                         </attributedString>
+                                    </menuItem>
+                                    <menuItem title="ko" id="3GX-vw-uyf" userLabel="Korean(ko)">
+                                        <attributedString key="attributedTitle">
+                                            <fragment content="ko">
+                                                <attributes>
+                                                    <font key="NSFont" metaFont="toolTip"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <modifierMask key="keyEquivalentModifierMask"/>
                                     </menuItem>
                                 </items>
                             </menu>
@@ -757,12 +769,12 @@
                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vJS-Vz-qLl">
                         <rect key="frame" x="381" y="323" width="77" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <popUpButtonCell key="cell" type="push" title="en" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="OMx-Tt-QcS" id="EPr-7X-9Su">
+                        <popUpButtonCell key="cell" type="push" title="en" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="OMx-Tt-QcS" id="EPr-7X-9Su">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="menu"/>
                             <menu key="menu" id="GLY-UA-raY">
                                 <items>
-                                    <menuItem title="en" state="on" id="OMx-Tt-QcS" userLabel="English(en)">
+                                    <menuItem title="en" id="OMx-Tt-QcS" userLabel="English(en)">
                                         <attributedString key="attributedTitle">
                                             <fragment content="en">
                                                 <attributes>
@@ -771,8 +783,9 @@
                                                 </attributes>
                                             </fragment>
                                         </attributedString>
+                                        <modifierMask key="keyEquivalentModifierMask"/>
                                     </menuItem>
-                                    <menuItem title="ja" id="Apb-ko-b3u" userLabel="Japanese(ja-JP)">
+                                    <menuItem title="ja" state="on" id="Apb-ko-b3u" userLabel="Japanese(ja-JP)">
                                         <attributedString key="attributedTitle">
                                             <fragment content="ja">
                                                 <attributes>
@@ -781,8 +794,9 @@
                                                 </attributes>
                                             </fragment>
                                         </attributedString>
+                                        <modifierMask key="keyEquivalentModifierMask"/>
                                     </menuItem>
-                                    <menuItem title="zh" id="Kgp-h9-B6M">
+                                    <menuItem title="zh" id="Kgp-h9-B6M" userLabel="Chinese(zh)">
                                         <attributedString key="attributedTitle">
                                             <fragment content="zh">
                                                 <attributes>
@@ -791,29 +805,23 @@
                                                 </attributes>
                                             </fragment>
                                         </attributedString>
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="ko" id="VB5-xx-Q7d" userLabel="Korean(ko)">
+                                        <attributedString key="attributedTitle">
+                                            <fragment content="ko">
+                                                <attributes>
+                                                    <font key="NSFont" metaFont="toolTip"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <modifierMask key="keyEquivalentModifierMask"/>
                                     </menuItem>
                                 </items>
                             </menu>
                         </popUpButtonCell>
                     </popUpButton>
-                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C43-6h-yDz">
-                        <rect key="frame" x="59" y="71" width="301" height="240"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="mBi-WI-iBq">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hgb-5K-TyJ">
-                        <rect key="frame" x="383" y="71" width="301" height="240"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="4ee-8d-mAM">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fnS-jy-L6l">
                         <rect key="frame" x="504" y="13" width="58" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -822,7 +830,7 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="doInterpretation:" target="rVI-J5-j1j" id="pFT-sk-BrN"/>
+                            <action selector="doInterpretation:" target="rVI-J5-j1j" id="uDm-hy-9Gp"/>
                         </connections>
                     </button>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HHx-pc-dgK">
@@ -871,15 +879,69 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                     </button>
+                    <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k3i-fJ-cM5">
+                        <rect key="frame" x="59" y="71" width="300" height="240"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="wUX-Ak-BTj">
+                            <rect key="frame" x="0.0" y="0.0" width="300" height="240"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" findStyle="bar" spellingCorrection="YES" smartInsertDelete="YES" id="hSb-dc-fzR">
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="240"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <size key="minSize" width="300" height="240"/>
+                                    <size key="maxSize" width="300" height="10000000"/>
+                                    <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                </textView>
+                            </subviews>
+                        </clipView>
+                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="w4D-ST-0pt">
+                            <rect key="frame" x="-100" y="-100" width="240" height="16"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="ODL-aP-D1U">
+                            <rect key="frame" x="284" y="0.0" width="16" height="240"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                    </scrollView>
+                    <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q94-7T-q7f">
+                        <rect key="frame" x="383" y="71" width="300" height="240"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="UlP-lV-h9f">
+                            <rect key="frame" x="0.0" y="0.0" width="300" height="240"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" findStyle="bar" spellingCorrection="YES" smartInsertDelete="YES" id="cIU-Zj-3sm">
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="240"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <size key="minSize" width="300" height="240"/>
+                                    <size key="maxSize" width="300" height="10000000"/>
+                                    <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                </textView>
+                            </subviews>
+                        </clipView>
+                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="HUF-6y-uLR">
+                            <rect key="frame" x="-100" y="-100" width="240" height="16"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="Sd0-Wn-jUY">
+                            <rect key="frame" x="284" y="0.0" width="16" height="240"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                    </scrollView>
                 </subviews>
             </view>
             <point key="canvasLocation" x="246" y="-163"/>
         </window>
-        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="pTE-sS-6aP" customClass="NSPanel">
+        <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="pTE-sS-6aP" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" utility="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="139" y="81" width="501" height="479"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="900"/>
             <view key="contentView" id="MGI-AF-34r">
                 <rect key="frame" x="0.0" y="0.0" width="501" height="479"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -1029,7 +1091,7 @@ DQ
 </string>
                         </buttonCell>
                         <connections>
-                            <action selector="performClose:" target="pTE-sS-6aP" id="Hbd-w8-Ilv"/>
+                            <action selector="prefSave:" target="rVI-J5-j1j" id="jBe-g2-GqE"/>
                         </connections>
                     </button>
                 </subviews>
