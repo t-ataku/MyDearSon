@@ -188,7 +188,7 @@ NSUInteger pos;
 }
 
 -(NSString *)getBasicRelm: (NSURLCredential *)cred {
-    NSMutableString *relmStr = [NSMutableString stringWithCapacity:10];
+    NSString *relmStr = [NSMutableString stringWithCapacity:10];
     relmStr = [[[relmStr stringByAppendingString:cred.user] stringByAppendingString:@":"] stringByAppendingString:cred.password];
     NSString *b64Relm = [[NSData dataWithBytes:relmStr.UTF8String length:strlen(relmStr.UTF8String)] base64EncodedStringWithOptions:0];
     
@@ -443,7 +443,7 @@ NSUInteger getrestdatalen()
         //        NSLog(@"%@", data);
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self gotVoice: _dt];
-                    _playButton.enabled = YES;
+                    self->_playButton.enabled = YES;
                 });
             }];
 

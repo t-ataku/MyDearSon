@@ -708,7 +708,11 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="1014" height="394"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="900"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <value key="minSize" type="size" width="1014" height="394"/>
+            <value key="maxSize" type="size" width="1014" height="394"/>
+            <value key="minFullScreenContentSize" type="size" width="1014" height="394"/>
+            <value key="maxFullScreenContentSize" type="size" width="1014" height="394"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="1014" height="394"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -769,12 +773,12 @@
                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vJS-Vz-qLl">
                         <rect key="frame" x="381" y="323" width="77" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <popUpButtonCell key="cell" type="push" title="en" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="OMx-Tt-QcS" id="EPr-7X-9Su">
+                        <popUpButtonCell key="cell" type="push" title="en" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="OMx-Tt-QcS" id="EPr-7X-9Su">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="menu"/>
                             <menu key="menu" id="GLY-UA-raY">
                                 <items>
-                                    <menuItem title="en" id="OMx-Tt-QcS" userLabel="English(en)">
+                                    <menuItem title="en" state="on" id="OMx-Tt-QcS" userLabel="English(en)">
                                         <attributedString key="attributedTitle">
                                             <fragment content="en">
                                                 <attributes>
@@ -785,7 +789,7 @@
                                         </attributedString>
                                         <modifierMask key="keyEquivalentModifierMask"/>
                                     </menuItem>
-                                    <menuItem title="ja" state="on" id="Apb-ko-b3u" userLabel="Japanese(ja-JP)">
+                                    <menuItem title="ja" id="Apb-ko-b3u" userLabel="Japanese(ja-JP)">
                                         <attributedString key="attributedTitle">
                                             <fragment content="ja">
                                                 <attributes>
@@ -854,7 +858,7 @@
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3lX-tr-ds5">
                         <rect key="frame" x="909" y="346" width="91" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="List lang" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="GrP-YD-csO">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -941,7 +945,11 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" utility="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="139" y="81" width="501" height="479"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="900"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <value key="minSize" type="size" width="501" height="479"/>
+            <value key="maxSize" type="size" width="501" height="479"/>
+            <value key="minFullScreenContentSize" type="size" width="501" height="479"/>
+            <value key="maxFullScreenContentSize" type="size" width="501" height="479"/>
             <view key="contentView" id="MGI-AF-34r">
                 <rect key="frame" x="0.0" y="0.0" width="501" height="479"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -1074,15 +1082,11 @@
                     </textField>
                     <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="X2F-0P-c6X">
                         <rect key="frame" x="12" y="211" width="477" height="5"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    </box>
-                    <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="egx-MB-sSj">
-                        <rect key="frame" x="12" y="59" width="477" height="5"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     </box>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y68-WB-5zv">
                         <rect key="frame" x="417" y="13" width="59" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="A8k-St-e5d">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
